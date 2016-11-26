@@ -1,0 +1,21 @@
+{
+    "name": "odanylevskyi/yii2-sitemap-xml",
+    "description": "Sitemap extension provides functionality to generate and send xml file to the search engines.",
+    "type": "yii2-extension",
+    "keywords": ["yii2"," extension"," sitemap"," sitemap.xml"," sitemap-index"," sitemap-index.xml"," cybdev.org"," blog.cybdev.org"],
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Oleksii Danylevskyi",
+            "email": "aleksey@danilevsky.com"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "odanylevskyi\\": ""
+        }
+    }
+}
