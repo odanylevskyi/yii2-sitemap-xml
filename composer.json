@@ -4,6 +4,7 @@
     "type": "yii2-extension",
     "keywords": ["yii2"," extension"," sitemap"," sitemap.xml"," sitemap-index"," sitemap-index.xml"," cybdev.org"," blog.cybdev.org"],
     "license": "BSD-3-Clause",
+    "minimum-stability": "dev",
     "authors": [
         {
             "name": "Oleksii Danylevskyi",
@@ -15,7 +16,7 @@
     },
     "autoload": {
         "psr-4": {
-            "odanylevskyi\\": ""
+            "odanylevskyi\\sitemap\\": ""
         }
     }
 }
