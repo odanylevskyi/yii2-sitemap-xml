@@ -25,7 +25,7 @@ to the require section of your `composer.json` file.
 Usage
 -----
 
-Once the extension is installed, simply place the following code in your `config\main.php` in `module` section:
+Once the extension is installed, simply place the following code in your `config\main.php` in `modules` section:
 
 ```php
 'modules' => [
@@ -45,6 +45,17 @@ Once the extension is installed, simply place the following code in your `config
         ],
 ...
 ],
+```
+Also you need to add this line to the `urlManager` in `components` section `'sitemap.xml' => 'sitemap/default/index'`: 
+```php
+[
+    ...
+    'rules' => [
+        ...
+        'sitemap.xml' => 'sitemap/default/index',
+        ...
+    ]
+...
 ```
 
 If you have more then one `sitemap.xml` file or you want to use `sitemap-index.xml` file you can add `useIndex` to the module settings: 
