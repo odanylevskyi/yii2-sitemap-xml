@@ -107,4 +107,12 @@ To build url using models you need to add the following to the module configurat
         ],
  ...
  ``` 
-`rules` must be `Closure` instance another way it will be ignored. 
+`rules` must be `Closure` instance another way it will be ignored.
+ 
+ TODO: 
+  1. Restructure directories;
+  2. Add gzip;
+  3. Add functionality to send files to search engines (e.g., Google, Yandex);
+  4. Add caching;
+  5. Add error exception;
+  6. Add tests.
