@@ -25,7 +25,75 @@ to the require section of your `composer.json` file.
 Usage
 -----
 
-Once the extension is installed, simply use it in your code by  :
+Once the extension is installed, simply place the following code in your `config\main.php` in `module` section:
 
 ```php
-<?= \odanylevskyi\AutoloadExample::widget(); ?>```
+'modules' => [
+...
+    'sitemap' => [
+        'class' => '\odanylevskyi\sitemap\Module',
+        'items' => [
+            [
+                'urls' => [
+                    'site/index',
+                    'site/login',
+                    'site/contact',
+                    ['hotel/view', 'id' => 1],
+                    ....
+                ],
+            ],
+        ],
+...
+],
+```
+
+If you have more then one `sitemap.xml` file or you want to use `sitemap-index.xml` file you can add `useIndex` to the module settings: 
+```php
+...
+    'sitemap' => [
+           'class' => '\odanylevskyi\sitemap\Module',
+           'useIndex' => true,
+           ...
+   ],
+...
+```
+
+To build url using models you need to add the following to the module configuration: 
+ ```php
+ ...
+     'sitemap' => [
+        'class' => '\odanylevskyi\sitemap\Module',
+        'items' => [
+            [
+                'class' => 'frontend\models\Artile',
+                'urls' => [
+                    ['article/view', 'id' => ':id'],
+                    ['article/view-by-name', 'name' => ':title'],
+                    ....
+                ],
+            ],
+        ],
+ ...
+ ```
+ where `:id`, `:title` should be valid attributes of `Article` model.
+ Also You can add SQL rules to our `Article` model. For example ,lets imagine that you want to add only articles that was accepted by moderator. You can do it in the following way: 
+ ```php
+ ...
+     'sitemap' => [
+        'class' => '\odanylevskyi\sitemap\Module',
+        'items' => [
+            [
+                'class' => 'frontend\models\Artile', 
+                'rules' => function($model) {
+                    return $model->andWhere(['is_active'=>1]);
+                },
+                'urls' => [
+                    ['article/view', 'id' => ':id'],
+                    ['article/view-by-name', 'name' => ':title'],
+                    ....
+                ],
+            ],
+        ],
+ ...
+ ``` 
+`rules` must be `Closure` instance another way it will be ignored. 
