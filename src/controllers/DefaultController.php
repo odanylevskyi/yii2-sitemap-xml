@@ -8,7 +8,6 @@ use odanylevskyi\sitemap\components\SitemapHelper;
 use odanylevskyi\sitemap\components\SitemapConstants;
 
 /**
- * Created by PhpStorm.
  * Author: Oleksii Danylevskyi <aleksey@danilevsky.com>
  * Date: 27.11.2016
  * Time: 14:19
@@ -18,7 +17,10 @@ class DefaultController extends \yii\web\Controller
     public function actionIndex() {
         $module = $this->module;
         $sitemap = new Sitemap();
-        $sitemap->setPath(Yii::getAlias($module->path));
+        if (!$sitemap->isFileDateExpired($module->expire)) {
+          return $sitemap->output();
+        }
+        $sitemap->clear();
         $sitemap->init();
         foreach ($module->items as $item) {
             $class = isset($item['class']) ? new \ReflectionClass(Yii::getAlias($item['class'])) : null;
@@ -45,11 +47,10 @@ class DefaultController extends \yii\web\Controller
                 }
             }
         }
-        $sitemap->save();
         if ($module->useIndex || $sitemap->getCurrentSitemap() > 1) {
             $sitemap->createIndex();
-            return $sitemap->index->output($module->enableGzip);
         }
-        return $sitemap->output($module->enableGzip);
+        $sitemap->save();
+        return $sitemap->output();
     }
 }

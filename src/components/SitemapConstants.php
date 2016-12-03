@@ -1,6 +1,5 @@
 <?php
 /**
- * Created by PhpStorm.
  * Author: Oleksii Danylevskyi <aleksey@danilevsky.com>
  * Date: 30.11.2016
  * Time: 19:25
@@ -16,6 +15,7 @@ abstract class SitemapConstants
     const DEFAULT_PRIORITY = 0.5;
     const ITEM_PER_SITEMAP = 50000;
     const SEPERATOR = '-';
+    const INDEX_SUFFIX = 'index';
 
     const CHANGEFREQ_ALWAYS  = 'always';
     const CHANGEFREQ_HOURLY  = 'hourly';

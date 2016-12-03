@@ -1,6 +1,5 @@
 <?php
 /**
- * Created by PhpStorm.
  * Author: Oleksii Danylevskyi <aleksey@danilevsky.com>
  * Date: 30.11.2016
  * Time: 19:24
@@ -17,10 +16,11 @@ trait SitemapTrait
      * @var XMLWriter
      */
     private $writer;
-    private $path;
+    //Path to the directory where sitemap files will be located
+    private $path = '@frontend/web/sitemap';
     private $filename = 'sitemap';
+    //Full path of sitemap file including the filename
     private $fullpath;
-
 
     /**
      * Returns XMLWriter object instance
@@ -35,8 +35,22 @@ trait SitemapTrait
      *
      * @param XMLWriter $writer
      */
-    private function setWriter(XMLWriter $writer) {
+    private function setWriter(\XMLWriter $writer) {
         $this->writer = $writer;
+    }
+    /*
+     * Set full path of sitemap file
+     * Check if sitemap-index file exists then set fullpath to the sitemap-index path
+     * otherwise set fullpath as sitemap file
+     *
+     */
+    public function setOutputFile() {
+        $file = $this->getPath().$this->getFilename().SitemapConstants::SEPERATOR;
+        if (file_exists($file.SitemapConstants::INDEX_SUFFIX.SitemapConstants::EXT)) {
+            $this->setFullpath($file.SitemapConstants::INDEX_SUFFIX.SitemapConstants::EXT);
+        } else {
+            $this->setFullpath($file.$this->getCurrentSitemap() . SitemapConstants::EXT);
+        }
     }
     /**
      * Returns path of sitemaps
@@ -44,7 +58,7 @@ trait SitemapTrait
      * @return string
      */
     public function getPath() {
-        return $this->path;
+        return \Yii::getAlias($this->path);
     }
     /**
      * Sets paths of sitemaps
@@ -74,9 +88,21 @@ trait SitemapTrait
         $this->filename = $filename;
         return $this;
     }
-
-    private function setFullpath($fullpath) {
+    /**
+     * Sets full path of sitemap file
+     *
+     * @param string $filename
+     */
+    public function setFullpath($fullpath) {
         $this->fullpath = $fullpath;
+    }
+    /**
+     * Returns full path of sitemap file
+     *
+     * @return string
+     */
+    public function getFullpath() {
+        return $this->fullpath;
     }
 
     /**
@@ -92,5 +118,23 @@ trait SitemapTrait
             $date = strtotime($date);
             return date('Y-m-d', $date);
         }
+    }
+
+    /**
+     * Check file expiration date
+     *
+     * @param integer $expire - time in seconds
+     * @return boolean true if file time is expired, false otherwise
+     */
+    public function isFileDateExpired($expire = 0) {
+        $file = $this->getPath().$this->getFilename().SitemapConstants::SEPERATOR.SitemapConstants::INDEX_SUFFIX.SitemapConstants::EXT;
+        if (file_exists($file) && !is_dir($file)) {
+            return time() > filemtime($file) + $expire + 0;
+        }
+        $file = $this->getPath().$this->getFilename().'-0.xml';
+        if (file_exists($file) && !is_dir($file)) {
+            return time() > filemtime($file) + $expire + 0;
+        }
+        return true;
     }
 }
