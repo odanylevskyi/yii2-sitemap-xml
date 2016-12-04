@@ -108,6 +108,7 @@ To build url using models you need to add the following to the module configurat
  ...
  ``` 
 `rules` must be `Closure` instance another way it will be ignored.
+
  To use file cache you need to add `expire` to the module settings where `expire` is a time in seconds. Default is -1 that means no caching.  
   ```php
   ...
