@@ -17,6 +17,10 @@ abstract class SitemapConstants
     const SEPERATOR = '-';
     const INDEX_SUFFIX = 'index';
 
+    const GOOGLE = 'google';
+    const BING   = 'bing';
+    const ASK    = 'ask';
+
     const CHANGEFREQ_ALWAYS  = 'always';
     const CHANGEFREQ_HOURLY  = 'hourly';
     const CHANGEFREQ_DAILY   = 'daily';

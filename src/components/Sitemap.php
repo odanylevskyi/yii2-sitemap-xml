@@ -2,6 +2,7 @@
 
 namespace odanylevskyi\sitemap\components;
 
+use yii\base\ErrorException;
 use yii\helpers\Url;
 use yii\helpers\FileHelper;
 

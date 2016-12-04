@@ -87,7 +87,7 @@ To build url using models you need to add the following to the module configurat
  ...
  ```
  where `:id`, `:title` should be valid attributes of `Article` model.
- Also You can add SQL rules to our `Article` model. For example ,lets imagine that you want to add only articles that was accepted by moderator. You can do it in the following way: 
+ Also You can add SQL rules to your model (e.g. `Article`). For example ,lets imagine that you want to add only articles that was accepted by moderator. You can do it in the following way: 
  ```php
  ...
      'sitemap' => [
@@ -108,8 +108,37 @@ To build url using models you need to add the following to the module configurat
  ...
  ``` 
 `rules` must be `Closure` instance another way it will be ignored.
- 
- TODO: 
-  1. Add functionality to send files to search engines (e.g., Google, Yandex);
-  2. Add error exception;
-  3. Add tests.
+ To use file cache you need to add `expire` to the module settings where `expire` is a time in seconds. Default is -1 that means no caching.  
+  ```php
+  ...
+      'sitemap' => [
+         'class' => '\odanylevskyi\sitemap\Module',
+         'expire' => 30*24*3600; //30 days from now
+         ...
+  ...
+  ``` 
+To specify priority and frequency for url use the next structure: 
+ ```php
+ ...
+     'sitemap' => [
+        'class' => '\odanylevskyi\sitemap\Module',
+        'items' => [
+            [
+                'class' => 'frontend\models\Artile',
+                'urls' => [
+                    [
+                       'path' => article/view', 'id' => ':id'],
+                       'priority' => 0.5,
+                       'freq' => 'monthly',
+                    ],
+                    [
+                       'path' => 'article/view-by-name', 'name' => ':title'],
+                       'priority' => 0.8,
+                       'freq' => 'daily',
+                    ],
+                    ....
+                ],
+            ],
+        ],
+ ...
+ ``` 

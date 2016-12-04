@@ -23,6 +23,7 @@ class DefaultController extends \yii\web\Controller
         $sitemap->clear();
         $sitemap->init();
         foreach ($module->items as $item) {
+            if (!isset($item['urls'])) continue;
             $class = isset($item['class']) ? new \ReflectionClass(Yii::getAlias($item['class'])) : null;
             if (!$class) {
                 foreach ($item['urls'] as $url) {
@@ -32,17 +33,31 @@ class DefaultController extends \yii\web\Controller
                 $tableName  = $class->getMethod('tableName')->invoke(null);
                 $select     = SitemapHelper::getSelect($item['urls'], $tableName);
                 $modelQuery = $class->getMethod('find')->invoke(null);
-                if (!empty($select)) {
-                    $modelQuery->select($select);
-                }
                 if (isset($item['rules']) && is_callable($item['rules'])) {
                     $rules = $item['rules'];
                     $modelQuery = $rules($modelQuery);
                 }
+                if (!empty($select)) {
+                    if (!empty($modelQuery->select) && is_array($modelQuery->select)) {
+                        $select = array_merge($select, $modelQuery->select);
+                    }
+                    $modelQuery->select($select);
+                }
                 $models = $modelQuery->all();
                 foreach($models as $model) {
                     foreach ($item['urls'] as $url) {
-                        $sitemap->addItem(SitemapHelper::buildUrl($url, $model), 0.8, SitemapConstants::CHANGEFREQ_WEEKLY);
+                        $priority = SitemapConstants::DEFAULT_PRIORITY;
+                        $freq = SitemapConstants::CHANGEFREQ_NEVER;
+                        if (isset($url['freq'])) {
+                            $freq = $url['freq'];
+                        }
+                        if (isset($url['priority'])) {
+                            $priority = $url['priority'];
+                        }
+                        if (isset($url['path'])) {
+                            $url = $url['path'];
+                        }
+                        $sitemap->addItem(SitemapHelper::buildUrl($url, $model), $priority, $freq);
                     }
                 }
             }

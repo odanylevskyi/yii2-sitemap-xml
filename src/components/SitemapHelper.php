@@ -11,14 +11,32 @@ use yii\helpers\Url;
 
 class SitemapHelper
 {
+    /*
+     * Return selected attributes in url.
+     * This function should be used just to avoid getting all the information from database
+     *
+     * @param array $urls  - contains url and sitemap spec information
+     * @param string $tableName - model table name
+     *
+     * @return array - list of attributes that should be selected from database
+     */
     public static function getSelect($urls, $tableName) {
         $select = [];
         foreach ($urls as $url) {
+            $url = count($url) > 1 && isset($url['path']) ? $url['path'] : $url;
             $select = array_merge($select, self::getAttributes($url, $tableName));
         }
         return array_unique($select);
     }
 
+    /*
+     * Return selected attributes in url.
+     *
+     * @param array $url  - contains only url information
+     * @param string $tableName - model table name
+     *
+     * @return array - list of attributes that should be selected from database for specific url
+     */
     public static function getAttributes($url, $tableName) {
         $attributes = [];
         foreach ($url as $key => $attribute) {
@@ -29,6 +47,14 @@ class SitemapHelper
         return $attributes;
     }
 
+    /*
+     * Build sitemap url
+     *
+     * @param mixed - url information
+     * @param object - model object
+     *
+     * @return string - url for sitemap.xml
+     */
     public static function buildUrl($url, $model = null) {
         if(is_array($url)) {
             $url[0] = "/{$url[0]}";

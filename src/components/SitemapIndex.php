@@ -44,7 +44,7 @@ class SitemapIndex
         $this->writer->startElement('sitemap');
         $this->writer->writeElement(
             'loc',
-            $this->getFilename() . SitemapConstants::SEPERATOR . ($index ? $index : 0) . SitemapConstants::EXT
+            $loc . $this->getFilename() . SitemapConstants::SEPERATOR . ($index ? $index : 0) . SitemapConstants::EXT
         );
         $this->writer->writeElement('lastmod', $this->getLastModifiedDate($lastmod));
         $this->writer->endElement();
