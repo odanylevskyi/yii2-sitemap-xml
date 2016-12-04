@@ -10,13 +10,13 @@ The preferred way to install this extension is through [composer](http://getcomp
 Either run
 
 ```
-php composer.phar require --prefer-dist odanylevskyi/yii2-sitemap-xml "*"
+php composer.phar require --prefer-dist odanylevskyi/yii2-sitemap-xml "@dev"
 ```
 
 or add
 
 ```
-"odanylevskyi/yii2-sitemap-xml": "*"
+"odanylevskyi/yii2-sitemap-xml": "@dev"
 ```
 
 to the require section of your `composer.json` file.
