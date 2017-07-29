@@ -17,7 +17,7 @@ trait SitemapTrait
      */
     private $writer;
     //Path to the directory where sitemap files will be located
-    private $path = '@frontend/web/sitemap/';
+    private $path = '@app/web/sitemap/';
     private $filename = 'sitemap';
     //Full path of sitemap file including the filename
     private $fullpath;
