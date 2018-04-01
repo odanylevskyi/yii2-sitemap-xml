@@ -41,17 +41,17 @@ class SitemapHelper
         $attributes = [];
         foreach ($url as $key => $attribute) {
             if ($key !== 0 && strcmp($key, 'url') != 0) {
-              if (is_array($attribute)) {
-                $attributes[] = array_map(function($attr) use ($tableName) {
-                  if (strpos($attr, '.') !== false) {
-                    $attr = trim($attr, ':');
-                  } else {
-                    $attr = $tableName . '.' . trim($attr, ':');
-                  }
-                }, $attribute);
-              } elseif (strpos($attribute, ":") !== false) {
-                $attributes[] = $tableName . '.' . trim($attribute, ':');
-              }
+                if (is_array($attribute)) {
+                    foreach ($attribute as $key => $attr) {
+                        if (strpos($attr, '.') !== false) {
+                            $attributes[] = trim($attr, ':');
+                        } else {
+                            $attributes[] = $tableName . '.' . trim($attr, ':');
+                        }
+                    }
+                } elseif (strpos($attribute, ":") !== false) {
+                  $attributes[] = $tableName . '.' . trim($attribute, ':');
+                }
             }
         }
         return $attributes;
