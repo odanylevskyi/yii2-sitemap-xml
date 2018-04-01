@@ -16,7 +16,7 @@
     },
     "autoload": {
         "psr-4": {
-            "odanylevskyi\\sitemap\\": "./src"
+            "odanylevskyi\\sitemap\\": "src"
         }
     }
 }
