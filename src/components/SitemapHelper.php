@@ -60,7 +60,7 @@ class SitemapHelper
             $url[0] = "/{$url[0]}";
             if ($model) {
                 foreach($url as $key => $value) {
-                    if ($key !== 0 && $key != 'url' && strpos($value, ':') !== false) {
+                    if ($key !== 0 && $key != 'url' && !is_int($value)) {
                         $url[$key] = $model->{trim($value, ':')};
                     } else {
                         $url[$key] = $value;
