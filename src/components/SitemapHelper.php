@@ -40,8 +40,18 @@ class SitemapHelper
     public static function getAttributes($url, $tableName) {
         $attributes = [];
         foreach ($url as $key => $attribute) {
-            if ($key !== 0 && strcmp($key, 'url') != 0 && strpos($attribute, ":") !== false) {
-                $attributes[] = $tableName.'.'.trim($attribute, ':');
+            if ($key !== 0 && strcmp($key, 'url') != 0) {
+              if (is_array($attribute)) {
+                $attributes[] = array_map(function($attr) use ($tableName) {
+                  if (strpos($attr, '.') !== false) {
+                    $attr = trim($attr, ':');
+                  } else {
+                    $attr = $tableName . '.' . trim($attr, ':');
+                  }
+                }, $attribute);
+              } elseif (strpos($attribute, ":") !== false) {
+                $attributes[] = $tableName . '.' . trim($attribute, ':');
+              }
             }
         }
         return $attributes;
